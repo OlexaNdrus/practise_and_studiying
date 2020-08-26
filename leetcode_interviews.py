@@ -278,4 +278,40 @@ def countAndSay(n: int) -> str:
 nums= [1,2,3,4,5,6]
 
 
-print(countAndSay(30))
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+    lazy_pointer, fast_pointer = head, head
+    result_list, counter, prev = [], 1, None
+
+    while counter != n:
+        fast_pointer = fast_pointer.next
+        counter += 1
+
+    while fast_pointer.next is not None:
+        prev = lazy_pointer
+        lazy_pointer = lazy_pointer.next
+        fast_pointer = fast_pointer.next
+
+    if lazy_pointer.next:
+        lazy_pointer.val = lazy_pointer.next.val
+        lazy_pointer.next = lazy_pointer.next.next
+    else:
+        if prev:
+            prev.next = None
+        else:
+            lazy_pointer.val = ''
+
+    return head
+
+def deleteNode(node):
+    """
+    :type node: ListNode
+    :rtype: void Do not return anything, modify node in-place instead.
+    """
+    node.val = node.next.val
+    node.next = node.next.next
